@@ -4,6 +4,8 @@ import com.mydb.utils.DatabaseConnection;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextFlow;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -23,12 +25,13 @@ public class HelpController {
 
         // Title Section
         HBox titleBox = new HBox(10);
-        FontIcon helpIcon = new FontIcon(FontAwesomeSolid.INFO_CIRCLE);
-        helpIcon.setIconSize(28);
-        helpIcon.setIconColor(javafx.scene.paint.Paint.valueOf("#667eea"));
+        ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("/icons/logo.png")));
+        logo.setFitWidth(40);
+        logo.setFitHeight(40);
+        logo.setPreserveRatio(true);
         Label title = new Label("MyDB Help & About");
         title.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #333;");
-        titleBox.getChildren().addAll(helpIcon, title);
+        titleBox.getChildren().addAll(logo, title);
         titleBox.setPadding(new Insets(0, 0, 15, 0));
 
         // Scrollable content area

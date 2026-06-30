@@ -33,8 +33,7 @@ public class App extends Application {
         primaryStage.setMinWidth(1024);
         primaryStage.setMinHeight(768);
         
-        // Add logo icon (we'll add this later)
-        // primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/logo.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/logo.png")));
         
         primaryStage.show();
     }
