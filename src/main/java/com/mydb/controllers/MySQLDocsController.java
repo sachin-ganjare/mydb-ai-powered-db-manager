@@ -1,50 +1,82 @@
 package com.mydb.controllers;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class MySQLDocsController {
 
+    private static final String DEFAULT_DOCS_URL = "https://dev.mysql.com/doc/";
+
     public BorderPane createDocsView() {
         BorderPane root = new BorderPane();
-        root.setPadding(new Insets(15));
+        root.getStyleClass().add("docs-root");
 
         Label title = new Label("MySQL Documentation, Tips & Patterns");
-        title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 0 0 15 0;");
-        root.setTop(title);
+        title.getStyleClass().add("docs-title");
 
-        // WebView to show docs
         WebView webView = new WebView();
+        webView.setPrefHeight(520);
+        VBox.setVgrow(webView, Priority.ALWAYS);
+
         WebEngine webEngine = webView.getEngine();
+        TextField addressField = new TextField(DEFAULT_DOCS_URL);
+        addressField.getStyleClass().add("docs-address-field");
+        addressField.setOnAction(event -> loadUrl(webEngine, addressField.getText()));
 
-        // Load official MySQL documentation homepage or specific URL
-        // This can be local HTML files or official online docs (needs internet)
-        // For demo, we use official MySQL doc URL:
-        webEngine.load("https://dev.mysql.com/doc/");
+        Button homeButton = createToolbarButton("Docs Home", FontAwesomeSolid.HOME);
+        homeButton.setOnAction(event -> {
+            addressField.setText(DEFAULT_DOCS_URL);
+            webEngine.load(DEFAULT_DOCS_URL);
+        });
 
-        // Optional: Add tips/patterns below webview inside a VBox with scrollbar
+        Button reloadButton = createToolbarButton("Reload", FontAwesomeSolid.SYNC);
+        reloadButton.setOnAction(event -> webEngine.reload());
+
+        Button goButton = createToolbarButton("Go", FontAwesomeSolid.ARROW_RIGHT);
+        goButton.setOnAction(event -> loadUrl(webEngine, addressField.getText()));
+
+        ToolBar docsToolbar = new ToolBar(homeButton, reloadButton, addressField, goButton);
+        docsToolbar.getStyleClass().add("docs-toolbar");
+
+        VBox header = new VBox(10, title, docsToolbar);
+        header.setPadding(new Insets(15, 15, 10, 15));
+        root.setTop(header);
+
+        webEngine.locationProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isBlank()) {
+                addressField.setText(newValue);
+            }
+        });
+
+        webEngine.load(DEFAULT_DOCS_URL);
+
         VBox tipsBox = new VBox(12);
-        tipsBox.setStyle("-fx-padding: 10;");
+        tipsBox.getStyleClass().add("docs-tips");
         Label tipsHeader = new Label("MySQL Tricks & Common Patterns");
-        tipsHeader.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10 0 5 0;");
+        tipsHeader.getStyleClass().add("docs-tips-title");
 
         Label tipsContent = new Label(
-            "• Use `EXPLAIN` to analyze query execution plans.\n" +
-            "• Use `INDEX` to improve SELECT performance.\n" +
-            "• Avoid SELECT *; specify needed columns.\n" +
-            "• Use prepared statements to prevent SQL injection.\n" +
-            "• Optimize joins with key indexes.\n" +
-            "• Use transactions (START TRANSACTION, COMMIT, ROLLBACK) for critical operations.\n" +
-            "• Use `INFORMATION_SCHEMA` for metadata queries.\n" +
-            "• Use LIMIT/OFFSET for pagination.\n" +
-            "• Avoid large result sets; use filtering and aggregation.\n" +
-            "• Use stored procedures and functions for reusable logic."
-        );
+                "- Use EXPLAIN to analyze query execution plans.\n" +
+                "- Add indexes for columns used in WHERE, JOIN, and ORDER BY clauses.\n" +
+                "- Avoid SELECT * in application queries; select only the columns you need.\n" +
+                "- Use prepared statements to reduce SQL injection risk.\n" +
+                "- Wrap related writes in transactions with START TRANSACTION, COMMIT, and ROLLBACK.\n" +
+                "- Use INFORMATION_SCHEMA for metadata queries.\n" +
+                "- Use LIMIT and OFFSET for pagination.\n" +
+                "- Filter and aggregate early to avoid very large result sets.\n" +
+                "- Use stored procedures and functions when reusable database-side logic helps.");
+        tipsContent.getStyleClass().add("docs-tips-content");
         tipsContent.setWrapText(true);
         tipsBox.getChildren().addAll(tipsHeader, tipsContent);
 
@@ -53,9 +85,27 @@ public class MySQLDocsController {
         tipsScroll.setFitToWidth(true);
 
         VBox centerBox = new VBox(10, webView, tipsScroll);
-
+        centerBox.setPadding(new Insets(0, 15, 15, 15));
         root.setCenter(centerBox);
 
         return root;
+    }
+
+    private Button createToolbarButton(String text, FontAwesomeSolid iconType) {
+        Button button = new Button(text);
+        button.setGraphic(new FontIcon(iconType));
+        button.getStyleClass().add("icon-button");
+        return button;
+    }
+
+    private void loadUrl(WebEngine webEngine, String rawUrl) {
+        String url = rawUrl == null ? "" : rawUrl.trim();
+        if (url.isEmpty()) {
+            url = DEFAULT_DOCS_URL;
+        }
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+        webEngine.load(url);
     }
 }

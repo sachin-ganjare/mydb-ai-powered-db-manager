@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
@@ -19,6 +21,12 @@
             <Button fx:id="backButton" text="Back" onAction="#handleBack" styleClass="back-button"/>
             
             <Separator orientation="VERTICAL"/>
+
+            <ImageView fitHeight="38" fitWidth="38" preserveRatio="true" styleClass="workspace-logo">
+                <image>
+                    <Image url="@../icons/logo.png"/>
+                </image>
+            </ImageView>
             
             <Label text="Database:" styleClass="topbar-label"/>
             <Label fx:id="databaseNameLabel" styleClass="database-name-label"/>

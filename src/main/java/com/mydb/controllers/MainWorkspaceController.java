@@ -1,6 +1,5 @@
 package com.mydb.controllers;
 
-// import com.mydb.controllers.MySQLDocsController;
 import javafx.stage.FileChooser;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -198,6 +197,14 @@ public class MainWorkspaceController {
         SecurityController securityController = new SecurityController(currentDatabase);
         securityTab.setContent(securityController.createSecurityView());
 
+        Tab docsTab = new Tab("MySQL Docs");
+        docsTab.setClosable(false);
+        FontIcon docsIcon = new FontIcon(FontAwesomeSolid.BOOK);
+        docsIcon.setIconColor(Color.web("#667eea"));
+        docsTab.setGraphic(docsIcon);
+        MySQLDocsController docsController = new MySQLDocsController();
+        docsTab.setContent(docsController.createDocsView());
+
         Tab helpTab = new Tab("Help & About");
         helpTab.setClosable(false);
         FontIcon helpIcon = new FontIcon(FontAwesomeSolid.QUESTION_CIRCLE);
@@ -206,7 +213,7 @@ public class MainWorkspaceController {
         HelpController helpController = new HelpController();
         helpTab.setContent(helpController.createHelpView());
 
-        mainTabPane.getTabs().addAll(crudTab, queryTab, visualTab, backupTab, securityTab, helpTab);
+        mainTabPane.getTabs().addAll(crudTab, queryTab, visualTab, backupTab, securityTab, docsTab, helpTab);
     }
 
     private void handleExportResults(TableView<ObservableList<String>> resultsTable) {

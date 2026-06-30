@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
@@ -18,7 +20,11 @@
             
             <!-- Logo and Title -->
             <VBox alignment="CENTER" spacing="10">
-                <Text text="MyDB" styleClass="logo-text"/>
+                <ImageView fitHeight="132" fitWidth="132" preserveRatio="true" styleClass="login-logo">
+                    <image>
+                        <Image url="@../icons/logo.png"/>
+                    </image>
+                </ImageView>
                 <Text text="AI-Powered Database Manager" styleClass="subtitle-text"/>
             </VBox>
             

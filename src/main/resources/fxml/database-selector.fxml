@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
@@ -17,7 +19,11 @@
                 <Insets top="20" right="30" bottom="20" left="30"/>
             </padding>
             
-            <Text text="MyDB" styleClass="header-logo"/>
+            <ImageView fitHeight="46" fitWidth="46" preserveRatio="true" styleClass="topbar-logo">
+                <image>
+                    <Image url="@../icons/logo.png"/>
+                </image>
+            </ImageView>
             
             <Region HBox.hgrow="ALWAYS"/>
             

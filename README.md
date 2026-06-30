@@ -46,6 +46,10 @@ MyDB is a JavaFX desktop application that makes working with MySQL databases eas
   - Tips for writing SQL and using AI mode.
   - Information about the project and technologies used.
 
+### 7. MySQL Documentation
+- Built-in MySQL documentation tab using JavaFX WebView.
+- Includes quick local tips for query analysis, indexing, transactions, and safe SQL habits.
+
 ---
 
 ## Technology Stack
@@ -66,7 +70,6 @@ MyDB is a JavaFX desktop application that makes working with MySQL databases eas
   - Gson (JSON parsing/serialization)
 
 - Security & UX:
-  - BCrypt/jBCrypt (hashing API keys and sensitive data)[web:306][web:307]
   - Ikonli FontAwesome icons (modern UI icons)[web:305]
   - JavaFX CSS styling (themes)
 
